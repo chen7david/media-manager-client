@@ -14,6 +14,8 @@
               default
             >
         </video>
+        <v-card-title class="pt-0 mt-0" v-if="media">{{media.title}}</v-card-title>
+        <v-card-subtitle v-if="media" class="">{{media.overview}}</v-card-subtitle>
     </v-card>
 </template>
 
