@@ -1,18 +1,29 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <v-container>
+      <VideoPlayer  
+        :media="movie" 
+        videoBaseURL="http://192.168.50.166:9000/movies" 
+        imgBaseURL="http://aox.hopto.org:8000/image/original"
+      />
+    </v-container>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import VideoPlayer from '@/components/VideoPlayer.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld
+    VideoPlayer
+  }, 
+  computed: {
+    ...mapGetters([
+      'movie'
+    ])
   }
 }
 </script>
