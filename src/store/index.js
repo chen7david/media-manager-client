@@ -37,7 +37,8 @@ export default new Vuex.Store({
         ],
         "videos": [
             {
-              "src": "/Captain Marvel (2019)/Captain Marvel.mp4"
+              // "src": "/Captain Marvel (2019)/Captain Marvel.mp4"
+              "src": "/Finding Nemo (2003)/Finding Nemo.mp4"
             }
         ],
         "subtitles": [
