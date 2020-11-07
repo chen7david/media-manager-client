@@ -3,7 +3,7 @@
     <v-container>
       <VideoPlayer  
         :media="movie" 
-        videoBaseURL="http://watch.hopto.org:9000/movies" 
+        videoBaseURL="http://aox.hopto.org:9000/movies" 
         imgBaseURL="http://aox.hopto.org:8000/image/original"
       />
     </v-container>
