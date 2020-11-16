@@ -8,6 +8,13 @@
               :key="item.id" 
               :item="item"
             />
+            <div 
+              v-for="item in movies"
+              :key="item.id" 
+              :item="item"
+            >
+            {{item}}
+            </div>
           </v-row>
       </v-col>
     </v-row>
