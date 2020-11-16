@@ -8,7 +8,13 @@
               :key="item.id" 
               :item="item"
             />
-            dd
+            <!-- <div
+              v-for="item in shows"
+              :key="item.id" 
+              :item="item"
+            >
+              {{item}}
+            </div> -->
           </v-row>
       </v-col>
     </v-row>

@@ -21,11 +21,11 @@ const routes = [
   //   component: () => import('../views/Movie.vue'),
   //   props: true
   // },
-  // {
-  //   path: '/shows',
-  //   name: 'Shows',
-  //   component: () => import('../views/Shows.vue')
-  // },
+  {
+    path: '/shows',
+    name: 'Shows',
+    component: () => import('../views/Shows.vue')
+  },
   // {
   //   path: '/show/:id',
   //   name: 'Show',

@@ -72,16 +72,17 @@ export default {
             var ctx = canvas.getContext('2d')
             canvas.width = 200
             canvas.height = 300
-            ctx.fillStyle= '#990000';
-            ctx.fillRect(0,0,canvas.width,canvas.height);
+            ctx.fillStyle= '#990000'
+            ctx.fillRect(0,0,canvas.width,canvas.height)
             return canvas.toDataURL()
         },
         name(){
-            return this.isMovie ? this.item.title : this.item.name
+            return this.item.title || this.item.name
         },
         posterURL(){
             const baseURL = this.$config.url.metadata + '/image/'
             const url = this.item.poster_path ? baseURL.concat(this.size, this.item.poster_path) : this.$config.url.defaultPoster
+            console.log({item:this.item})
             return this.imageError ?  this.$config.url.defaultPoster : url
         },
         size(){
@@ -91,18 +92,17 @@ export default {
             return this.size.replace('w','').concat('px')
         },
         year(){
-            const date = this.item.title ? this.item.release_date : this.item.first_air_date
+            const date = this.item.release_date || this.item.first_air_date
             return date ? new Date(date).getFullYear().toString() : ''
-        },
-        isMovie(){
-            console.log(this.$config)
-            return this.item.title != null
         },
         detailsLink(){
             return  `${this.isMovie ? 'movie' : 'show' }/${this.item.id}`
         },
         rating(){
             return `${this.item.vote_average}`
+        },
+        isMovie(){
+            return this.item.title != null
         },
     },
     methods:{

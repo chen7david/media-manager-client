@@ -38,11 +38,11 @@ export default new Vuex.Store({
   actions: {
     async getMovies({commit}){
       const { data } = await http.movies().get()
-      dd({data})
       commit('setMovies', data)
     },
     async getShows({commit}){
-      const data = await http.shows().get()
+      const  { data } = await http.shows().get()
+      dd({data})
       commit('setShows', data)
     },
   },
