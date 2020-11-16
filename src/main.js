@@ -5,9 +5,11 @@ import store from './store'
 import vuetify from './plugins/vuetify';
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@mdi/font/css/materialdesignicons.css'
-import http from './plugins/http'
+// import http from './plugins/http'
+// import Media from './plugins/media-api'
 
-Vue.prototype.$http = http
+// Vue.prototype.$http = http
+// Vue.prototype.$media = new Media()
 Vue.config.productionTip = false
 
 new Vue({

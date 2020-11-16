@@ -1,36 +1,42 @@
 import axios from 'axios'
+const dd = (val) => console.log(val)
 
-const http = axios.create({
-    baseURL: 'aox.hopto.org:9000',
-    timeout: 9000
-})
-
-async function requestHandler(config){
-
+/* REQUEST HANDLERS */
+const requestConfigHandler = async (config) => {
+    dd({url:config.url})
     return config
 }
 
-async function requestHandler(error){
+const requestErrorHandler = async (error) => {
 
     return Promise.reject(error)
 }
 
-async function responseHandler(respose){
-    if (response.config.parse) {
-        //perform the manipulation here and change the response object
-    }
+/* RESPONSE HANDLERS */
+const responseConfigHandler = async (response) => {
+    if(response.data.isCargo) response.data = response.data.payload
     return response;
 }
 
-async function responseError(error){
+const responseErrorHandler = async (error) => {
     if (error.response && error.response.data) {
         return Promise.reject(error.response.data)
     }
     return Promise.reject(error.message)
 }
 
-http.interceptors.request.use(requestHandler, requestError)
-http.interceptors.response.use(responseHandler, responseError)
 
+export default (options = {}) => {
+    let config = {
+        baseURL: 'http://192.168.50.251:8555',
+        timeout: 9000
+    }
 
-export default http
+    Object.assign(config, options)
+    const http = axios.create(config)
+
+    http.interceptors.request.use(requestConfigHandler, requestErrorHandler)
+    http.interceptors.response.use(responseConfigHandler, responseErrorHandler)
+
+    return http
+}

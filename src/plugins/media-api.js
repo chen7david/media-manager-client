@@ -1,8 +1,10 @@
+const dd = (val) => console.log(val)
+// const http = require('./http')()
+import api from './http'
 
-
-class Meta {
-    constructor(http, options){
-        this.http = require('./http')(options)
+class MediaAPI {
+    constructor(http){
+        this.http = http
         this.state = {bits:[], params:{}}
     }
 
@@ -11,9 +13,10 @@ class Meta {
     }
 
     url(){
-        const {source, bits, params} = this.state
+        const {source, action, bits, params} = this.state
         let url = bits.filter(e => e).join('/')
         if(source) url = [source, url].join('-')
+        if(action) url = [url, action].join('-')
         const qString = this.toQueryString(params)
         if(qString) url = [url, qString].join('?')
         this.clearState()
@@ -43,6 +46,16 @@ class Meta {
     season(id){
         this.state.bits.push('season')
         this.state.bits.push(id)
+        return this
+    }
+
+    graph(){
+        this.state.action = 'graph'
+        return this
+    }
+
+    import(){
+        this.state.action = 'import'
         return this
     }
 
@@ -78,6 +91,7 @@ class Meta {
     }
 
     async get(){
+        dd({url:this.url})
         return await this.http.get(this.url())
     }
 
@@ -95,15 +109,5 @@ class Meta {
     }
 }
 
-exports = module.exports = (http, options = {}) => {
-    if(!options.baseURL) throw('baseURL required!')
-    return new Meta(http, options)
-}
 
-exports.meta = (http, options = {}) => async (ctx, next) => {
-    if(!options.baseURL) throw('baseURL required!')
-    ctx.meta = new Meta(http, options) 
-    await next()
-}
-
-exports.Meta = 
+export default new MediaAPI(api())
