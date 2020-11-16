@@ -2,12 +2,12 @@
     <v-hover v-slot:default="{ hover }" open-delay="10">
         <v-card class="mb-4" max-width="185px" color="rgb(0, 0, 0, 0.0)" elevation="0" tile> 
                 <v-img 
-                    :src="posterURL(3)" 
+                    :lazy-src="placeHolder" 
+                    :src="posterURL" 
                     @error="onImgError()"
-                    @load="done"
                     class="mb-2"
                 >
-                    <!-- <source v-if="imageError"  srcset="/poster-missing.jpg" type="image/jpg"/> -->
+                    <source v-if="imageError"  srcset="/poster-missing.jpg" type="image/jpg"/>
                     <v-overlay absolute :value="hover || isLoading">
                         <v-btn x-large :loading="isLoading" @click="deleteItem(item.id)" v-if="play" icon>
                             <v-icon>mdi-play</v-icon>
@@ -67,28 +67,25 @@ export default {
         imageDownloaded: false
     }),
     computed: {
-        dataUrl() {
-            const { width, height } = this.$attrs
-            if (!width || !height) return ""
-
-            // create a tiny png with matching aspect ratio as img
-            const w = 100
+        placeHolder() {
             const canvas = document.createElement("canvas")
-            canvas.width = w
-            canvas.height = (height / width) * w
-
+            var ctx = canvas.getContext('2d')
+            canvas.width = 200
+            canvas.height = 300
+            ctx.fillStyle= '#990000';
+            ctx.fillRect(0,0,canvas.width,canvas.height);
             return canvas.toDataURL()
         },
         name(){
             return this.isMovie ? this.item.title : this.item.name
         },
-        lazyPosterURL(){
+        posterURL(){
             const baseURL = this.$config.url.metadata + '/image/'
             const url = this.item.poster_path ? baseURL.concat(this.size, this.item.poster_path) : this.$config.url.defaultPoster
             return this.imageError ?  this.$config.url.defaultPoster : url
         },
         size(){
-            return ['w780', 'w500', 'w342', 'w185', 'w154', 'w92']
+            return ['w780', 'w500', 'w342', 'w185', 'w154', 'w92'][2]
         },
         width(){
             return this.size.replace('w','').concat('px')
@@ -129,15 +126,6 @@ export default {
             this.imageError = true
             console.log('@image error ...')
         },
-        posterURL(profile){
-            const baseURL = this.$config.url.metadata + '/image/'
-            const url = this.item.poster_path ? baseURL.concat(this.size[profile || 2], this.item.poster_path) : this.$config.url.defaultPoster
-            return this.imageError ?  this.$config.url.defaultPoster : url
-        },
-        done(e){
-            this.imageDownloaded = true
-            console.log('show', e)
-        }
     }
 }
 </script>
