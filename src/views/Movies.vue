@@ -7,15 +7,7 @@
               v-for="item in movies"
               :key="item.id" 
               :item="item"
-              :play="true"
             />
-            <!-- <div 
-              v-for="item in movies"
-              :key="item.id" 
-              :item="item"
-            > -->
-            <!-- {{item}}
-            </div> -->
           </v-row>
       </v-col>
     </v-row>

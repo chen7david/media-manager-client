@@ -17,7 +17,7 @@
 
 <script>
 import Details from './../components/Details';
-import { mapActions, mapGetters } from 'vuex'
+
 
 export default {
   name: 'Movies',
@@ -35,14 +35,12 @@ export default {
   }),
 
   computed: {
-    ...mapGetters([
-      'movies'
-    ]),
+
   },
   methods: {
-    ...mapActions([]),
     async getMovie(){
       this.item = await this.$mttp.movies().withId(this.id).get()
+      console.log(this.item)
     }
   },
 
