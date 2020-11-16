@@ -47,7 +47,6 @@ export default {
     async getMovie(){
       const { data } = await this.$http.movies().withId(this.id).get()
       this.item = data
-      console.log(data)
     }
   },
 
