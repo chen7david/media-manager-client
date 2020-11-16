@@ -7,7 +7,11 @@
       <v-col cols="12">
          <v-row justify="start"> 
             <v-col lg="9" sm="12" xs="12">
-              <Details :item="item"/>
+              <VideoPlayer 
+                :media="item" 
+                videoBaseURL="http://aox.hopto.org:9000/movies"
+                imgBaseURL="http://aox.hopto.org:8000/image/w1280"
+              />
             </v-col>
           </v-row>
       </v-col>
@@ -16,14 +20,16 @@
 </template>
 
 <script>
-import Details from './../components/Details';
+// import Details from './../components/Details';
+import VideoPlayer from './../components/VideoPlayer';
 
 
 export default {
   name: 'Movies',
 
   components: {
-    Details
+    // Details,
+    VideoPlayer
   },
 
   props: {
@@ -39,8 +45,9 @@ export default {
   },
   methods: {
     async getMovie(){
-      this.item = await this.$mttp.movies().withId(this.id).get()
-      console.log(this.item)
+      const { data } = await this.$http.movies().withId(this.id).get()
+      this.item = data
+      console.log(data)
     }
   },
 
