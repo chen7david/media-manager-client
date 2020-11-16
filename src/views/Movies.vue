@@ -7,6 +7,7 @@
               v-for="item in movies"
               :key="item.id" 
               :item="item"
+              :play="true"
             />
             <!-- <div 
               v-for="item in movies"

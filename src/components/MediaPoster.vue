@@ -2,14 +2,13 @@
     <v-hover v-slot:default="{ hover }" open-delay="10">
         <v-card class="mb-4" max-width="185px" color="rgb(0, 0, 0, 0.0)" elevation="0" tile> 
                 <v-img 
-                    :lazy-src="placeHolder" 
                     :src="posterURL" 
+                    :lazy-src="placeHolder" 
                     @error="onImgError()"
                     class="mb-2"
                 >
-                    <source v-if="imageError"  srcset="/poster-missing.jpg" type="image/jpg"/>
                     <v-overlay absolute :value="hover || isLoading">
-                        <v-btn x-large :loading="isLoading" @click="deleteItem(item.id)" v-if="play" icon>
+                        <v-btn x-large :loading="isLoading" v-if="play" icon>
                             <v-icon>mdi-play</v-icon>
                         </v-btn>
                         <v-btn :loading="isLoading" @click="addItem(item.id)" v-if="tmdb && !play" x-large icon>
@@ -31,7 +30,7 @@
                             align="center"
                             justify="center"
                         >
-                            <v-progress-circular
+                            <v-progress-circular v-if="!imageError"
                                 indeterminate
                                 color="grey lighten-5"
                             ></v-progress-circular>
@@ -63,8 +62,7 @@ export default {
     },
     data: () => ({
         isLoading: false,
-        imageError: false,
-        imageDownloaded: false
+        imageError: false
     }),
     computed: {
         placeHolder() {
@@ -81,7 +79,7 @@ export default {
         },
         posterURL(){
             const baseURL = this.$config.url.metadata + '/image/'
-            const url = this.item.poster_path ? baseURL.concat(this.size, this.item.poster_path) : this.$config.url.defaultPoster
+            const url = this.item.poster_path ? baseURL.concat(this.size, this.item.poster_path) : this.placeHolder
             console.log({item:this.item})
             return this.imageError ?  this.$config.url.defaultPoster : url
         },
