@@ -1,7 +1,7 @@
 <template>
     <v-row>
         <v-col cols="12">
-            <v-list-item two-line>
+            <!-- <v-list-item two-line>
             <v-list-item-content>
                 <v-list-item-title class="text-h5">{{name}}</v-list-item-title>
                 <v-list-item-subtitle class="text-6 blue-grey--text">{{year}}</v-list-item-subtitle>
@@ -17,15 +17,15 @@
                     {{item.overview}}
                 </v-list-item-subtitle>
             </v-list-item-content>
-            </v-list-item>
+            </v-list-item> -->
 
-            <v-btn class="ma-2" v-if="!isMovie" :loading="isLoading" @click="refreshSeason">
+            <!-- <v-btn class="ma-2" v-if="!isMovie" :loading="isLoading" @click="refreshSeason">
                 <v-icon>mdi-refresh</v-icon>
             </v-btn>
 
             <v-btn class="ma-2" v-if="!isMovie" :loading="isLoading" @click="addSeason">
                 <v-icon>mdi-plus</v-icon>
-            </v-btn>
+            </v-btn> -->
 
             <div v-if="item.seasons">
                 <v-tabs v-model="tab" background-color="dark" dark>
@@ -54,6 +54,7 @@
                             <tr
                                 v-for="episode of season.episodes" 
                                 :key="episode.id"
+                                @click="select(episode)"
                             >
                                 <td>{{ episodeId(episode) }}</td>
                                 <td>{{ episode.name }}</td>
@@ -85,7 +86,8 @@ export default {
     data: () => ({
         isLoading: false,
         tab: null,
-        seasonTabMap: []
+        seasonTabMap: [],
+        item: {}
     }),
     computed: {
         name(){
@@ -127,6 +129,9 @@ export default {
         async addSeason(){
             let s = this.getSeasonNumber(this.tab)
             await this.updateSeason(s + 1)
+        },
+        select(item){
+            this.$emit('selectVideo', item)
         }
     },
 }
