@@ -15,12 +15,12 @@ const routes = [
     name: 'Movies',
     component: () => import('./../views/Movies.vue')
   },
-  // {
-  //   path: '/movie/:id',
-  //   name: 'Movie',
-  //   component: () => import('../views/Movie.vue'),
-  //   props: true
-  // },
+  {
+    path: '/movie/:id',
+    name: 'Movie',
+    component: () => import('../views/Movie.vue'),
+    props: true
+  },
   {
     path: '/shows',
     name: 'Shows',

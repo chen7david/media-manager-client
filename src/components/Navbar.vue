@@ -69,17 +69,7 @@ export default {
                 name: 'Shows',
                 icon: 'mdi-monitor',
                 to: '/shows'
-            },
-            {
-                name: 'Search',
-                icon: 'mdi-magnify',
-                to: '/search'
-            },
-            {
-                name: 'Documentation',
-                icon: 'mdi-file',
-                to: '/documentation'
-            },
+            }
         ]
     }),
     methods: {
