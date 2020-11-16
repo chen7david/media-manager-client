@@ -1,7 +1,12 @@
 <template>
     <v-hover v-slot:default="{ hover }" open-delay="10">
         <v-card class="mb-4" max-width="185px" color="rgb(0, 0, 0, 0.0)" elevation="0" tile> 
-                <v-img :src="posterURL" class="mb-2" @error="onImgError()">
+                <v-img 
+                    :src="posterURL(3)" 
+                    @error="onImgError()"
+                    @load="done"
+                    class="mb-2"
+                >
                     <!-- <source v-if="imageError"  srcset="/poster-missing.jpg" type="image/jpg"/> -->
                     <v-overlay absolute :value="hover || isLoading">
                         <v-btn x-large :loading="isLoading" @click="deleteItem(item.id)" v-if="play" icon>
@@ -20,6 +25,18 @@
                             <v-icon>mdi-more</v-icon>
                         </v-btn>
                     </v-overlay>
+                    <template v-slot:placeholder>
+                        <v-row
+                            class="fill-height ma-0"
+                            align="center"
+                            justify="center"
+                        >
+                            <v-progress-circular
+                                indeterminate
+                                color="grey lighten-5"
+                            ></v-progress-circular>
+                        </v-row>
+      </template>
                 </v-img>
             <v-card-subtitle class="text-left pa-0">
                 <v-tooltip top>
@@ -44,24 +61,34 @@ export default {
         tmdb: null,
         play: null,
     },
-    components: {
-        // DeleteConfirmation
-    },
     data: () => ({
         isLoading: false,
-        imageError: false
+        imageError: false,
+        imageDownloaded: false
     }),
     computed: {
+        dataUrl() {
+            const { width, height } = this.$attrs
+            if (!width || !height) return ""
+
+            // create a tiny png with matching aspect ratio as img
+            const w = 100
+            const canvas = document.createElement("canvas")
+            canvas.width = w
+            canvas.height = (height / width) * w
+
+            return canvas.toDataURL()
+        },
         name(){
             return this.isMovie ? this.item.title : this.item.name
         },
-        posterURL(){
-            const baseURL = this.tmdb ? this.$config.url.tmdbImage : this.$config.url.metadata + '/image/'
+        lazyPosterURL(){
+            const baseURL = this.$config.url.metadata + '/image/'
             const url = this.item.poster_path ? baseURL.concat(this.size, this.item.poster_path) : this.$config.url.defaultPoster
             return this.imageError ?  this.$config.url.defaultPoster : url
         },
         size(){
-            return ['w780', 'w500', 'w342', 'w185', 'w154', 'w92'][2]
+            return ['w780', 'w500', 'w342', 'w185', 'w154', 'w92']
         },
         width(){
             return this.size.replace('w','').concat('px')
@@ -101,6 +128,15 @@ export default {
         onImgError(){
             this.imageError = true
             console.log('@image error ...')
+        },
+        posterURL(profile){
+            const baseURL = this.$config.url.metadata + '/image/'
+            const url = this.item.poster_path ? baseURL.concat(this.size[profile || 2], this.item.poster_path) : this.$config.url.defaultPoster
+            return this.imageError ?  this.$config.url.defaultPoster : url
+        },
+        done(e){
+            this.imageDownloaded = true
+            console.log('show', e)
         }
     }
 }

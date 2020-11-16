@@ -4,17 +4,11 @@
       <v-col cols="12">
          <v-row justify="space-around">
             <MediaPoster 
-              v-for="item in movies"
+              v-for="item in shows"
               :key="item.id" 
               :item="item"
             />
-            <!-- <div 
-              v-for="item in movies"
-              :key="item.id" 
-              :item="item"
-            > -->
-            <!-- {{item}}
-            </div> -->
+            dd
           </v-row>
       </v-col>
     </v-row>
@@ -26,7 +20,7 @@ import MediaPoster from './../components/MediaPoster';
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  name: 'Movies',
+  name: 'Shows',
 
   components: {
     MediaPoster,
@@ -37,17 +31,16 @@ export default {
   }),
   computed: {
     ...mapGetters([
-      'movies'
+      'shows'
     ])
   },
   methods: {
     ...mapActions([
-      'getMovies'
+      'getShows'
     ]),
   },
-
   async mounted(){
-     await this.getMovies()
+    await this.getShows()
   }
 };
 </script>
