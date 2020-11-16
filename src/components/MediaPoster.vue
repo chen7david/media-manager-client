@@ -35,7 +35,7 @@
                                 color="grey lighten-5"
                             ></v-progress-circular>
                         </v-row>
-      </template>
+                    </template>
                 </v-img>
             <v-card-subtitle class="text-left pa-0">
                 <v-tooltip top>
